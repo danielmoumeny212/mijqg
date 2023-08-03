@@ -27,7 +27,6 @@ abstract class  NetworkHelper {
        String data = response.body;
        return Result<dynamic, int>.ok(convert.jsonDecode(data));
      } else {
-       print(response);
        return Result<String, dynamic>.error(response.statusCode);
      }
    }

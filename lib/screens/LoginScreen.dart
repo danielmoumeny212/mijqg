@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../models/User.dart';
 import '../utils/validate_input.dart';
-import '../utils/contants.dart';
 import 'Homescreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -151,12 +150,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40.0,
               ),
               Column(
+                
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(30)),
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -170,11 +170,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           String access = await result.unwrap()["access"];
                           String refresh = result.unwrap()["refresh"];
                           makeRequest(accessToken: access, context: context);
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       HomePage(token: access)));
+                          return;
                         }
                         // Le résultat est une erreur
                         showCustomSnackBar(context, "Mauvaise identification");
