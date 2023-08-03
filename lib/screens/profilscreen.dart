@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mijqg/Providers/UserProvider.dart';
 import 'dart:io';
 import 'package:mijqg/widget/Appbar.dart';
+import 'package:provider/provider.dart';
 
 
 class ProfilPage extends StatefulWidget {
@@ -41,158 +43,162 @@ class _ProfilPageState extends State<ProfilPage> {
     };
 
     final h  = MediaQuery.of(context).size.height;
-    return  Scaffold(
-      backgroundColor: Colors.teal,
-       appBar:const CustomAppBar(),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          verticalDirection: VerticalDirection.down,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget> [
-            SizedBox(
-              height: h*0.03,
-            ),
-           GestureDetector(
-             onTap: getImage,
-             child: CircleAvatar(
-                radius: 50.0,
-                backgroundColor: Colors.grey,
-                 backgroundImage: _image == null ? null : FileImage(_image),
-               child: _image == null
-                   ? const Icon(Icons.add_a_photo, size: 50, color: Colors.white)
-                   : null,
-              ),
-           ),
-            SizedBox(
-              height: h*0.02,
-            ),
-            Text(
-              'John Doe',
-              style: GoogleFonts.pacifico(
-                fontSize: 35.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'Berger de centre',
-              style: GoogleFonts.sourceSansPro(
-                 fontSize: 20.0,
-                color: Colors.teal.shade100,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-              SizedBox(
-                height: h*0.01,
-              ),
-            // FormInput(Colors.black, false, 'Nom de famille', Colors.black),
-            GestureDetector(
-              onTap: toggleClicked,
-              child: Card(
-                 color: Colors.white,
-                 child: ListTile(
-                   leading: const Icon(
-                           Icons.account_circle,
-                           color: Colors.teal,),
-                   title:  isClicked?  TextFormField(
-                     decoration: const InputDecoration(
-                       border: InputBorder.none,
-                     ),
-                     initialValue: user["nom"],
-                   ): Text(user['nom']!,
-                     style: GoogleFonts.sourceSansPro(
-                       fontSize: 20.0,
-                       color: Colors.teal.shade900,
-
-                     ),
-                   )
-
-                 )
-              ),
-            ),
-              SizedBox(
-                height: h*0.01,
-              ),
-              GestureDetector(
-                onTap: toggleClicked,
-                child: Card(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.email,
-                        color: Colors.teal,),
-                      title:  isClicked?  TextFormField(
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        initialValue: user["email"],
-                      ): Text(user['email']!,
-                        style: GoogleFonts.sourceSansPro(
-                          fontSize: 20.0,
-                          color: Colors.teal.shade900,
-
-                        ),
-                      )
-
-                    )
+    return  Consumer<UserProvider>(
+      builder: (context, provider, child) {
+        return Scaffold(
+          backgroundColor: Colors.teal,
+           appBar:const CustomAppBar(),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              verticalDirection: VerticalDirection.down,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget> [
+                SizedBox(
+                  height: h*0.03,
                 ),
-              ),
-              SizedBox(
-                height: h*0.01,
-              ),
-              GestureDetector(
-                onTap: toggleClicked,
-                child: Card(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.phone,
-                        color: Colors.teal,),
-                      title:  isClicked ? TextFormField(
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        initialValue: user["tel"],
-                      ):  Text(user['tel']!,
-                        style: GoogleFonts.sourceSansPro(
-                          fontSize: 20.0,
-                          color: Colors.teal.shade900,
-
-                        ),
-                      )
-
-                    )
+               GestureDetector(
+                 onTap: getImage,
+                 child: CircleAvatar(
+                    radius: 50.0,
+                    backgroundColor: Colors.grey,
+                     backgroundImage: _image == null ? null : FileImage(_image),
+                   child: _image == null
+                       ? const Icon(Icons.add_a_photo, size: 50, color: Colors.white)
+                       : null,
+                  ),
+               ),
+                SizedBox(
+                  height: h*0.02,
                 ),
-              ),
-             SizedBox(height: 10.0,),
-             isClicked?
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
+                Text(
+                  'John Doe',
+                  style: GoogleFonts.pacifico(
+                    fontSize: 35.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Berger de centre',
+                  style: GoogleFonts.sourceSansPro(
+                     fontSize: 20.0,
+                    color: Colors.teal.shade100,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                  SizedBox(
+                    height: h*0.01,
+                  ),
+                // FormInput(Colors.black, false, 'Nom de famille', Colors.black),
+                GestureDetector(
+                  onTap: toggleClicked,
+                  child: Card(
+                     color: Colors.white,
+                     child: ListTile(
+                       leading: const Icon(
+                               Icons.account_circle,
+                               color: Colors.teal,),
+                       title:  isClicked?  TextFormField(
+                         decoration: const InputDecoration(
+                           border: InputBorder.none,
+                         ),
+                         initialValue: provider.user.name,
+                       ): Text(provider.user.name,
+                         style: GoogleFonts.sourceSansPro(
+                           fontSize: 20.0,
+                           color: Colors.teal.shade900,
 
-                    ElevatedButton(
-                       style: ElevatedButton.styleFrom(
-                         primary: Colors.white
-                       ),
-                        onPressed: (){},
-                        child: Text(
-                      "Sauvergarder",
-                      style: GoogleFonts.sourceSansPro(
-                        fontSize: 20.0,
-                        color: Colors.black,
-                      )
-                    ))
-                  ],
-               ): Container()
+                         ),
+                       )
+
+                     )
+                  ),
+                ),
+                  SizedBox(
+                    height: h*0.01,
+                  ),
+                  GestureDetector(
+                    onTap: toggleClicked,
+                    child: Card(
+                        color: Colors.white,
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.email,
+                            color: Colors.teal,),
+                          title:  isClicked?  TextFormField(
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            initialValue: provider.user.email,
+                          ): Text(provider.user.email,
+                            style: GoogleFonts.sourceSansPro(
+                              fontSize: 20.0,
+                              color: Colors.teal.shade900,
+
+                            ),
+                          )
+
+                        )
+                    ),
+                  ),
+                  SizedBox(
+                    height: h*0.01,
+                  ),
+                  GestureDetector(
+                    onTap: toggleClicked,
+                    child: Card(
+                        color: Colors.white,
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.phone,
+                            color: Colors.teal,),
+                          title:  isClicked ? TextFormField(
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            initialValue: user["tel"],
+                          ):  Text(user['tel']!,
+                            style: GoogleFonts.sourceSansPro(
+                              fontSize: 20.0,
+                              color: Colors.teal.shade900,
+
+                            ),
+                          )
+
+                        )
+                    ),
+                  ),
+                 const SizedBox(height: 10.0,),
+                 isClicked?
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget> [
+
+                        ElevatedButton(
+                           style: ElevatedButton.styleFrom(
+                             primary: Colors.white
+                           ),
+                            onPressed: (){},
+                            child: Text(
+                          "Sauvergarder",
+                          style: GoogleFonts.sourceSansPro(
+                            fontSize: 20.0,
+                            color: Colors.black,
+                          )
+                        ))
+                      ],
+                   ): Container()
 
 
 
 
 
-          ]
-        ),
-      ),
+              ]
+            ),
+          ),
+        );
+      }
     );
   }
 }

@@ -26,14 +26,14 @@ class _HomePageState extends State<HomePage> {
       'Accept': 'application/json',
       'Authorization': 'JWT ${widget.token}',
     };
-    var service = MettingService();
-    var response = await service.getAllServiceByUser(id: userId, headers: headers);
-    print(response);
-    if(response is List<ServiceMetting>){
-      setState(() {
-        _services = response;
-      });
-    }
+    // var service = MettingService();
+    // var response = await service.getAllServiceByUser(id: userId, headers: headers);
+    // print(response);
+    // if(response is List<ServiceMetting>){
+    //   setState(() {
+    //     _services = response;
+    //   });
+    // }
 
 
   }
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         return AlertDialog(
           title: const Text('Vraiment ?', style: kAlertTitleDialogStyle,
           ),
-          content:  Text("Voulez vous quittez l'application ",),
+          content:  const Text("Voulez vous quittez l'application ",),
           actions: <Widget>[
              TextButton(
                onPressed: (){

@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final pwdInputController = TextEditingController();
   bool _obscurePassword = true;
 
-  void makeRequest({required accessToken, required context}) async {
+ Future  <User> getCurrentUser({required accessToken}) async {
     var auth = AuthService();
     Map<String, String> customHeader = {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       'Authorization': 'JWT $accessToken',
     };
     User user = await auth.getUser(headers: customHeader);
-    Provider.of<UserProvider>(context, listen: false).setUser(user);
+    return user; 
   }
 
   void showCustomSnackBar(BuildContext context, String message) {
@@ -150,7 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40.0,
               ),
               Column(
-                
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -169,7 +168,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           FocusScope.of(context).requestFocus(FocusNode());
                           String access = await result.unwrap()["access"];
                           String refresh = result.unwrap()["refresh"];
-                          makeRequest(accessToken: access, context: context);
+                          var user = await getCurrentUser(accessToken: access);
+                          Provider.of<UserProvider>(context, listen: false).setUser(user);
+
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
