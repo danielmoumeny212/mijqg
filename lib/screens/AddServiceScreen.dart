@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mijqg/Providers/UserProvider.dart';
+import 'package:mijqg/Providers/user_provider.dart';
 import 'package:mijqg/service/MettingService.dart';
 import 'package:mijqg/widget/Appbar.dart';
 import 'package:mijqg/widget/FormInput.dart';

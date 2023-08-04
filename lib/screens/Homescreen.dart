@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mijqg/Providers/UserProvider.dart';
+import 'package:mijqg/Providers/user_provider.dart';
 import 'package:mijqg/models/ServiceMetting.dart';
 import 'package:mijqg/screens/AddServiceScreen.dart';
 import 'package:mijqg/service/MettingService.dart';

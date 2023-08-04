@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mijqg/Providers/UserProvider.dart';
+import 'package:mijqg/Providers/user_provider.dart';
 import 'dart:io';
 import 'package:mijqg/widget/Appbar.dart';
 import 'package:provider/provider.dart';

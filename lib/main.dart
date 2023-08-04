@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mijqg/Providers/UserProvider.dart';
+import 'package:mijqg/Providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'screens/LoginScreen.dart';
 
