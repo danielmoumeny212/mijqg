@@ -1,11 +1,11 @@
 import 'dart:convert' as convert;
 import 'package:mijqg/models/User.dart';
-import 'package:mijqg/service/NetworkHelper.dart';
+import 'package:mijqg/service/network_helper.dart';
 
 class AuthService extends NetworkHelper {
 
-   final  String _authUrl = 'http://192.168.100.10:8000/auth/jwt/create/';
-   final  String _infoUrl = 'http://192.168.100.10:8000/auth/users/me';
+   final  String _authUrl = 'http://10.0.2.2:8000/auth/jwt/create/';
+   final  String _infoUrl = 'http://10.0.2.2:8000/auth/users/me';
 
    Future<Result<dynamic, dynamic>> login(String email, String pwd) async {
      return postData(url: _authUrl, body: {"email": email, "password": pwd }, headers: const  {'Content-Type': 'application/json;charset=UTF-8'});

@@ -1,4 +1,4 @@
-import 'package:mijqg/service/NetworkHelper.dart';
+import 'package:mijqg/service/network_helper.dart';
 
 import '../models/ServiceMetting.dart';
 

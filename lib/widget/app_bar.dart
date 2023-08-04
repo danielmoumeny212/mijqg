@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mijqg/screens/LoginScreen.dart';
-import 'package:mijqg/screens/profilscreen.dart';
+import 'package:mijqg/screens/login_screen.dart';
+import 'package:mijqg/screens/profil_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key}) : super(key: key);

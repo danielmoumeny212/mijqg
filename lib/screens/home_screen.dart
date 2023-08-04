@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mijqg/Providers/user_provider.dart';
 import 'package:mijqg/models/ServiceMetting.dart';
-import 'package:mijqg/screens/AddServiceScreen.dart';
-import 'package:mijqg/service/MettingService.dart';
-import 'package:mijqg/widget/Appbar.dart';
+import 'package:mijqg/screens/add_service_screen.dart';
+import 'package:mijqg/service/metting_service.dart';
+import 'package:mijqg/widget/app_bar.dart';
 import 'package:mijqg/utils/contants.dart';
 import 'package:provider/provider.dart';
 

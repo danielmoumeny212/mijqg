@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mijqg/Providers/user_provider.dart';
 import 'dart:io';
-import 'package:mijqg/widget/Appbar.dart';
+import 'package:mijqg/widget/app_bar.dart';
 import 'package:provider/provider.dart';
 
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mijqg/Providers/tokens_provider.dart';
 import 'package:mijqg/Providers/user_provider.dart';
 import 'package:provider/provider.dart';
-import 'screens/LoginScreen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-         ChangeNotifierProvider(create: (context) => UserProvider())
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => AuthTokensProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -29,5 +31,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

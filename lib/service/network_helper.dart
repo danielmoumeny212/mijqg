@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'package:mijqg/service/AuthService.dart';
+import 'package:mijqg/service/auth_service.dart';
 
 abstract class  NetworkHelper {
    // final  List<int>statusCode = [200, 201];

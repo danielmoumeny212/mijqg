@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mijqg/Providers/user_provider.dart';
-import 'package:mijqg/service/MettingService.dart';
-import 'package:mijqg/widget/Appbar.dart';
-import 'package:mijqg/widget/FormInput.dart';
+import 'package:mijqg/service/metting_service.dart';
+import 'package:mijqg/widget/app_bar.dart';
+import 'package:mijqg/widget/form_input.dart';
 import 'package:provider/provider.dart';
 
 class AddServiceScreen extends StatefulWidget {

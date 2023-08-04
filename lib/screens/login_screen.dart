@@ -1,13 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:mijqg/Providers/tokens_provider.dart';
 import 'package:mijqg/Providers/user_provider.dart';
-import 'package:mijqg/service/AuthService.dart';
+import 'package:mijqg/service/auth_service.dart';
 import 'package:provider/provider.dart';
 
 import '../models/User.dart';
 import '../utils/validate_input.dart';
-import 'Homescreen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final pwdInputController = TextEditingController();
   bool _obscurePassword = true;
 
- Future  <User> getCurrentUser({required accessToken}) async {
+  Future<User> getCurrentUser({required accessToken}) async {
     var auth = AuthService();
     Map<String, String> customHeader = {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -31,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       'Authorization': 'JWT $accessToken',
     };
     User user = await auth.getUser(headers: customHeader);
-    return user; 
+    return user;
   }
 
   void showCustomSnackBar(BuildContext context, String message) {
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
     userInputController.dispose();
     pwdInputController.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,16 +168,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Le résultat est une valeur de réussite
                           showCustomSnackBar(context, "Connexion réussie");
                           FocusScope.of(context).requestFocus(FocusNode());
-                          String access = await result.unwrap()["access"];
-                          String refresh = result.unwrap()["refresh"];
-                          var user = await getCurrentUser(accessToken: access);
-                          Provider.of<UserProvider>(context, listen: false).setUser(user);
+                          final Map<String, dynamic> tokens =
+                              await result.unwrap();
+                          Provider.of<AuthTokensProvider>(context, listen: false)
+                              .formMap(tokens);
+                          var user = await getCurrentUser(
+                              accessToken: tokens['access']);
+                          Provider.of<UserProvider>(context, listen: false)
+                              .setUser(user);
 
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      HomePage(token: access)));
+                                      HomePage(token: tokens['access'] ?? "")));
                           return;
                         }
                         // Le résultat est une erreur
