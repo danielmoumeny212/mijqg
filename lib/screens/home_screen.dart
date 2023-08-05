@@ -9,23 +9,22 @@ import 'package:mijqg/widget/app_bar.dart';
 import 'package:mijqg/utils/contants.dart';
 import 'package:provider/provider.dart';
 
-
 class HomePage extends StatefulWidget {
-   final String token;
-   const HomePage({Key? key, required this.token}) : super(key: key);
+  final String token;
+  const HomePage({Key? key, required this.token}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-    int selectedIndex = 0;
-    Widget _profilPage = ProfilPage();
-    Widget _bacenterPage = BacenterPage();
+  int selectedIndex = 0;
+  Widget _profilPage = ProfilPage();
+  Widget _bacenterPage = BacenterPage();
 
-    List<ServiceMetting> _services = [];
+  List<ServiceMetting> _services = [];
 
-  void makeRequest () async{
+  void makeRequest() async {
     final userId = Provider.of<UserProvider>(context, listen: false).user.id;
     var headers = {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -40,10 +39,7 @@ class _HomePageState extends State<HomePage> {
     //     _services = response;
     //   });
     // }
-
-
   }
-
 
   @override
   void initState() {
@@ -51,25 +47,62 @@ class _HomePageState extends State<HomePage> {
     makeRequest();
   }
 
-
   @override
   Widget build(BuildContext context) {
+    var h = MediaQuery.of(context).size.height;
+    print(h);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: const CustomAppBar(),
-      body: getBody(),
-      floatingActionButton: selectedIndex != 2 ? FloatingActionButton(
-        backgroundColor: Colors.teal,
-        child: const Icon(Icons.add, color: Colors.white ,),
-        onPressed: () async{
-          var serviceAdded = await Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddServiceScreen(token: widget.token,)));
-          if (serviceAdded is ServiceMetting) makeRequest();
-        },
-      ): null,
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _onScroll, // Attach the _onScroll callback here
+        child: getBody(),
+      ),
+      floatingActionButton: selectedIndex != 2
+          ? !showExtendedFAB
+              ? FloatingActionButton.extended(
+                  backgroundColor: Colors.teal,
+                  label: const Text("service"),
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () async {
+                    var serviceAdded = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddServiceScreen(
+                                  token: widget.token,
+                                )));
+                    if (serviceAdded is ServiceMetting) makeRequest();
+                  },
+                )
+              : FloatingActionButton(
+                  backgroundColor: Colors.teal,
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () async {
+                    var serviceAdded = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddServiceScreen(
+                                  token: widget.token,
+                                )));
+                    if (serviceAdded is ServiceMetting) makeRequest();
+                  },
+                )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Colors.black,
+        unselectedIconTheme: const IconThemeData(color: Colors.black, opacity: 1.0, size: 20),
+        currentIndex: selectedIndex,
+        selectedIconTheme:
+            const IconThemeData(color: Colors.teal, opacity: 1.0, size: 30),
         type: BottomNavigationBarType.fixed,
         items: const [
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Accueil",
           ),
@@ -77,33 +110,43 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.church),
             label: "bacenter",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "profil"
-          )
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "profil")
         ],
-         onTap: (int index) {
+        onTap: (int index) {
           onTapHandler(index);
         },
-        
-      
-        ),
+      ),
     );
-   
-
-
   }
-  void onTapHandler(int index)  {
+
+  void onTapHandler(int index) {
     setState(() {
       selectedIndex = index;
     });
   }
 
-    Widget getBody( )  {
-    if(selectedIndex == 0) {
-      return Container(
-        child: const Center(child: Text("HOME")),);
-    } else if(selectedIndex==1) {
+  bool showExtendedFAB = false;
+
+  bool _onScroll(ScrollNotification notification) {
+    // Check if the user is scrolling
+    if (notification is ScrollUpdateNotification) {
+      // Check if the scroll position is greater than 0, indicating the user has scrolled down
+      bool scrolledDown = notification.metrics.pixels > 0;
+
+      // Toggle the FAB based on the scroll position
+      setState(() {
+        showExtendedFAB = scrolledDown;
+      });
+    }
+
+    // Always return true to continue propagating the notification to other listeners
+    return true;
+  }
+
+  Widget getBody() {
+    if (selectedIndex == 0) {
+      return const Center(child: Text("Home"));
+    } else if (selectedIndex == 1) {
       return _bacenterPage;
     } else {
       return _profilPage;

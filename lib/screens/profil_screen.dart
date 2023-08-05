@@ -31,7 +31,7 @@ class _ProfilPageState extends State<ProfilPage> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> user = {
+    Map<String, String> users = {
       "nom": "John Doe",
       "email": "mijqg@gmail.com",
       "tel": "064649019",
@@ -39,6 +39,7 @@ class _ProfilPageState extends State<ProfilPage> {
 
     final h = MediaQuery.of(context).size.height;
     return Consumer<UserProvider>(builder: (context, provider, child) {
+      var user = provider.user;
       return SingleChildScrollView(
         padding: const EdgeInsets.only(left: 10, right: 10),
         // physics: const BouncingScrollPhysics(),
@@ -57,7 +58,8 @@ class _ProfilPageState extends State<ProfilPage> {
                   backgroundImage: _image != null
                       ? FileImage(_image) // Cast to ImageProvider<Object>
                       : provider.user.image != ""
-                          ? NetworkImage(provider.user.image) // Cast to ImageProvider<Object>
+                          ? NetworkImage(provider
+                              .user.image) // Cast to ImageProvider<Object>
                           : _image,
                   child: _image == null && provider.user.image == ""
                       ? const Icon(Icons.add_a_photo,
@@ -69,14 +71,14 @@ class _ProfilPageState extends State<ProfilPage> {
                 height: h * 0.02,
               ),
               Text(
-                '${provider.user.firstName}  ${provider.user.name}',
+                '${user.firstName}  ${user.name}',
                 style: GoogleFonts.pacifico(
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'Berger de centre',
+                '${user.statut} ',
                 style: GoogleFonts.sourceSansPro(
                     fontSize: 20.0,
                     color: Colors.teal.shade200,
@@ -100,10 +102,10 @@ class _ProfilPageState extends State<ProfilPage> {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                 ),
-                                initialValue: provider.user.name,
+                                initialValue: user.name,
                               )
                             : Text(
-                                provider.user.name,
+                                user.name,
                                 style: GoogleFonts.sourceSansPro(
                                   fontSize: 20.0,
                                   color: Colors.teal.shade900,
@@ -127,7 +129,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                 ),
-                                initialValue: provider.user.email,
+                                initialValue: user.email,
                               )
                             : Text(
                                 provider.user.email,
@@ -137,6 +139,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                 ),
                               ))),
               ),
+
               SizedBox(
                 height: h * 0.01,
               ),
@@ -154,37 +157,10 @@ class _ProfilPageState extends State<ProfilPage> {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                 ),
-                                initialValue: user["tel"],
+                                initialValue: users["tel"],
                               )
                             : Text(
-                                user['tel']!,
-                                style: GoogleFonts.sourceSansPro(
-                                  fontSize: 20.0,
-                                  color: Colors.teal.shade900,
-                                ),
-                              ))),
-              ),
-              SizedBox(
-                height: h * 0.01,
-              ),
-              GestureDetector(
-                onTap: toggleClicked,
-                child: Card(
-                    color: Colors.white,
-                    child: ListTile(
-                        leading: const Icon(
-                          Icons.phone,
-                          color: Colors.teal,
-                        ),
-                        title: isClicked
-                            ? TextFormField(
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                                initialValue: user["tel"],
-                              )
-                            : Text(
-                                user['tel']!,
+                                users['tel']!,
                                 style: GoogleFonts.sourceSansPro(
                                   fontSize: 20.0,
                                   color: Colors.teal.shade900,
@@ -199,8 +175,11 @@ class _ProfilPageState extends State<ProfilPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         ElevatedButton(
-                            style:
-                                ElevatedButton.styleFrom(primary: Colors.white),
+                            style: ElevatedButton.styleFrom(
+                              surfaceTintColor: Colors.teal,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
                             onPressed: () {},
                             child: Text("Sauvergarder",
                                 style: GoogleFonts.sourceSansPro(
