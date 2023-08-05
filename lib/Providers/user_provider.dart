@@ -1,6 +1,6 @@
 import "package:flutter/material.dart" show ChangeNotifier;
 
-import '../models/User.dart';
+import '../models/user.dart';
 
 class UserProvider with ChangeNotifier {
   User _user = User.empty();

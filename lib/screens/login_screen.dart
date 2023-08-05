@@ -6,7 +6,7 @@ import 'package:mijqg/Providers/user_provider.dart';
 import 'package:mijqg/service/auth_service.dart';
 import 'package:provider/provider.dart';
 
-import '../models/User.dart';
+import '../models/user.dart';
 import '../utils/validate_input.dart';
 import 'home_screen.dart';
 
@@ -170,7 +170,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           FocusScope.of(context).requestFocus(FocusNode());
                           final Map<String, dynamic> tokens =
                               await result.unwrap();
-                          Provider.of<AuthTokensProvider>(context, listen: false)
+                          Provider.of<AuthTokensProvider>(context,
+                                  listen: false)
                               .formMap(tokens);
                           var user = await getCurrentUser(
                               accessToken: tokens['access']);

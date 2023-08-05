@@ -1,6 +1,6 @@
 import 'package:mijqg/service/network_helper.dart';
 
-import '../models/ServiceMetting.dart';
+import '../models/service_meeting.dart';
 
 class MettingService extends NetworkHelper{
    final String _addServiceUrl = 'http://192.168.1.156:8000/service/create';

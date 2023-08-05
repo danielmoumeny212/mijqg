@@ -1,5 +1,5 @@
 import 'dart:convert' as convert;
-import 'package:mijqg/models/User.dart';
+import 'package:mijqg/models/user.dart';
 import 'package:mijqg/service/network_helper.dart';
 
 class AuthService extends NetworkHelper {

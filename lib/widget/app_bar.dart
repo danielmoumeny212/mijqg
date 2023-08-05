@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mijqg/screens/login_screen.dart';
 import 'package:mijqg/screens/profil_screen.dart';
+import 'package:mijqg/Providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key}) : super(key: key);
@@ -33,11 +35,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return logout;
   }
 
-  void toLoginPage(BuildContext context){
-     Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
+  void toLoginPage(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
   }
 
   @override
@@ -45,35 +47,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      backgroundColor: Colors.teal,
-      actions: <Widget>[
-        IconButton(
-          icon: const Icon(
-            Icons.logout,
-            color: Colors.white,
+    return Consumer<UserProvider>(builder: (context, provider, child) {
+      return AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal,
+        title: Text(
+          '${provider.user.church?["name"]} ',
+          style: TextStyle(color: Theme.of(context).hintColor, fontSize: 15.0),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              bool? isLogout = await askForLogout(context);
+              if (isLogout ?? false) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              }
+            },
           ),
-          onPressed: () async {
-            bool? isLogout = await askForLogout(context);
-            if (isLogout ?? false) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
-            }
-          },
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfilPage()),
-            );
-          },
-          icon: const Icon(Icons.account_circle),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }
