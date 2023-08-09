@@ -6,6 +6,7 @@ class User {
   bool isStaff;
   Map<String, dynamic>? profil;
   Map<String, dynamic>? church;
+  List<dynamic>? bacenters;
 
   User(
       {required this.id,
@@ -14,11 +15,13 @@ class User {
       required this.email,
       required this.isStaff,
       required this.profil,
-      required this.church});
+      required this.church,
+      required this.bacenters});
 
   String get churchName => church?['name'] ?? "";
   String get statut => profil?['statut'];
   String get image => profil?['image'];
+  String get bacenterName => bacenters?[0].name;
 
   factory User.empty() {
     return User(
@@ -28,7 +31,8 @@ class User {
         email: '',
         isStaff: false,
         profil: {},
-        church: {});
+        church: {},
+        bacenters: []);
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -39,6 +43,7 @@ class User {
         email: json['email'] as String,
         isStaff: json['is_staff'] as bool,
         profil: json['profil'] as Map<String, dynamic>,
-        church: json["church"] as Map<String, dynamic>);
+        church: json["church"] as Map<String, dynamic>,
+        bacenters: json["bacenters"] );
   }
 }

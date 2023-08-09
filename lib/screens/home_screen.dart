@@ -4,9 +4,7 @@ import 'package:mijqg/models/service_meeting.dart';
 import 'package:mijqg/screens/add_service_screen.dart';
 import 'package:mijqg/screens/bacenter_screen.dart';
 import 'package:mijqg/screens/profil_screen.dart';
-import 'package:mijqg/service/metting_service.dart';
 import 'package:mijqg/widget/app_bar.dart';
-import 'package:mijqg/utils/contants.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,10 +17,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
-  Widget _profilPage = ProfilPage();
-  Widget _bacenterPage = BacenterPage();
+  final Widget _profilPage = const ProfilPage();
+  final Widget _bacenterPage = const BacenterPage();
 
-  List<ServiceMetting> _services = [];
+  final List<ServiceMetting> _services = [];
 
   void makeRequest() async {
     final userId = Provider.of<UserProvider>(context, listen: false).user.id;
@@ -49,8 +47,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var h = MediaQuery.of(context).size.height;
-    print(h);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: const CustomAppBar(),
@@ -58,11 +54,11 @@ class _HomePageState extends State<HomePage> {
         onNotification: _onScroll, // Attach the _onScroll callback here
         child: getBody(),
       ),
-      floatingActionButton: selectedIndex != 2
+      floatingActionButton: selectedIndex == 0
           ? !showExtendedFAB
               ? FloatingActionButton.extended(
                   backgroundColor: Colors.teal,
-                  label: const Text("service"),
+                  label: const Text("nouveau service"),
                   icon: const Icon(
                     Icons.add,
                     color: Colors.white,
@@ -71,9 +67,7 @@ class _HomePageState extends State<HomePage> {
                     var serviceAdded = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddServiceScreen(
-                                  token: widget.token,
-                                )));
+                            builder: (context) => AddServiceScreen()));
                     if (serviceAdded is ServiceMetting) makeRequest();
                   },
                 )
@@ -87,9 +81,7 @@ class _HomePageState extends State<HomePage> {
                     var serviceAdded = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddServiceScreen(
-                                  token: widget.token,
-                                )));
+                            builder: (context) => AddServiceScreen()));
                     if (serviceAdded is ServiceMetting) makeRequest();
                   },
                 )
