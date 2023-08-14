@@ -94,14 +94,15 @@ class _AddMembersState extends State<AddMembers> {
               ),
             ),
             ElevatedButton(
-                child: const Text('Ajouter'),
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  elevation: 1.0,
-                  minimumSize: const Size.fromHeight(40),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                )),
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                elevation: 1.0,
+                minimumSize: const Size.fromHeight(40),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              child: const Text('Ajouter'),
+            ),
           ],
         ),
       ),

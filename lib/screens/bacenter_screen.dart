@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mijqg/Providers/user_provider.dart';
 import 'package:mijqg/screens/add_member_screen.dart';
+import 'package:mijqg/screens/bacenter_detail_screen.dart';
 import 'package:mijqg/screens/slidable_widget.dart';
-import 'package:mijqg/widget/form_input.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -15,12 +15,12 @@ class BacenterPage extends StatefulWidget {
 }
 
 class _BacenterPageState extends State<BacenterPage> {
-
   final List<SlidableAction> actions = [
     SlidableAction(
       // An action can be bigger than the others.
       onPressed: (context) async {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  const AddMembers()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AddMembers()));
       },
       backgroundColor: Colors.teal,
       foregroundColor: Colors.white,
@@ -28,7 +28,12 @@ class _BacenterPageState extends State<BacenterPage> {
       label: 'membre',
     ),
     SlidableAction(
-      onPressed: (context) {},
+      onPressed: (context) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const BacenterDetailPage()));
+      },
       backgroundColor: const Color(0xFF0392CF),
       foregroundColor: Colors.white,
       icon: Icons.remove_red_eye_sharp,
@@ -71,8 +76,6 @@ class _BacenterPageState extends State<BacenterPage> {
               ));
     });
   }
-
-
 
   String firstLetter(String data) {
     var splitted = data.split(' ');
