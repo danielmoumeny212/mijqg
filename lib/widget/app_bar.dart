@@ -49,11 +49,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, provider, child) {
       return AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         backgroundColor: Colors.teal,
         title: Text(
           '${provider.user.church?["name"]} ',
-          style: TextStyle(color: Theme.of(context).hintColor, fontSize: 15.0),
+          style: TextStyle(color: Theme.of(context).hintColor, fontSize: 12.0),
         ),
         actions: <Widget>[
           IconButton(

@@ -15,7 +15,7 @@ class FormInput extends StatelessWidget {
 
   FormInput(
         this.borderSideColor,
-        this.isDense,
+        this.isDense ,
         this.label,
         this.labelColor,
         // this.validator,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mijqg/Providers/user_provider.dart';
+import 'package:mijqg/screens/add_member_screen.dart';
 import 'package:mijqg/screens/slidable_widget.dart';
+import 'package:mijqg/widget/form_input.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -13,22 +15,25 @@ class BacenterPage extends StatefulWidget {
 }
 
 class _BacenterPageState extends State<BacenterPage> {
+
   final List<SlidableAction> actions = [
     SlidableAction(
-        // An action can be bigger than the others.
-        onPressed: (context){},
-        backgroundColor: const Color(0xFF7BC043),
-        foregroundColor: Colors.white,
-        icon: Icons.add_box_outlined,
-        label: 'Ajouter un Service',
-      ),
-      SlidableAction(
-        onPressed: (context){},
-        backgroundColor: const Color(0xFF0392CF),
-        foregroundColor: Colors.white,
-        icon: Icons.remove_red_eye_sharp,
-        label: 'Detail',
-      ),
+      // An action can be bigger than the others.
+      onPressed: (context) async {
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  const AddMembers()));
+      },
+      backgroundColor: Colors.teal,
+      foregroundColor: Colors.white,
+      icon: Icons.person_add_alt,
+      label: 'membre',
+    ),
+    SlidableAction(
+      onPressed: (context) {},
+      backgroundColor: const Color(0xFF0392CF),
+      foregroundColor: Colors.white,
+      icon: Icons.remove_red_eye_sharp,
+      label: 'Detail',
+    ),
   ];
 
   @override
@@ -67,7 +72,7 @@ class _BacenterPageState extends State<BacenterPage> {
     });
   }
 
-  void onDismissed(DismissDirection direction) {}
+
 
   String firstLetter(String data) {
     var splitted = data.split(' ');
