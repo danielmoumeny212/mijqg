@@ -157,7 +157,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                 ),
-                                initialValue: users["tel"],
+                                initialValue: provider.user.cellphone,
                               )
                             : Text(
                                 users['tel']!,

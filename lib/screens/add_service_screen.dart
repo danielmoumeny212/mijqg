@@ -17,12 +17,12 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
   final _formKey = GlobalKey<FormState>();
   final _serviceController = TextEditingController();
-  final _preacherController = TextEditingController();
   final _attendanceController = TextEditingController();
   final _newComerController = TextEditingController();
   final _newBornAgainController = TextEditingController();
   final _tithesController = TextEditingController();
   final _offrandesController = TextEditingController();
+  String? dropdownValue;
 
   @override
   void dispose() {
@@ -34,10 +34,37 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
   final List<String> services = <String>["Culte de grace "];
 
+  Widget showDropdown(List<dynamic> items) {
+    return DropdownButton<String>(
+      isExpanded: true,
+      value: dropdownValue,
+      hint: const Text("selectionner le bacenter concerner"),
+      icon: const Icon(
+        Icons.arrow_downward,
+        color: Colors.deepPurpleAccent,
+      ),
+      style: const TextStyle(color: Colors.deepPurple),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: items.map<DropdownMenuItem<String>>((dynamic value) {
+        return DropdownMenuItem<String>(
+          value: value['id'].toString(),
+          child: Text(value["name"]),
+        );
+      }).toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final preacherController = TextEditingController(
+        text: Provider.of<UserProvider>(context, listen: false).user.fullName);
     inputValues.add(_serviceController);
-    inputValues.add(_preacherController);
+    inputValues.add(preacherController);
     inputValues.add(_attendanceController);
     inputValues.add(_newComerController);
     inputValues.add(_tithesController);
@@ -79,9 +106,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         'Nom du predicateur ',
                         Colors.black,
                         helperText: 'Predicateur Invite',
-                        controller: _preacherController,
+                        controller: preacherController,
                       ),
                       const SizedBox(height: 10.0),
+                      showDropdown(
+                          Provider.of<UserProvider>(context, listen: false)
+                              .user
+                              .bacenters!),
+                      const SizedBox(height: 12.0),
                       Row(children: <Widget>[
                         Expanded(
                             child: FormInput(
@@ -156,28 +188,33 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.teal[300]),
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  final churchId =
+                      Provider.of<UserProvider>(context, listen: false)
+                          .user
+                          .church?["id"];
                   if (_formKey.currentState!.validate()) {
                     var body = {
                       "service_name": _serviceController.text,
-                      "predicator": _preacherController.text,
+                      "predicator": preacherController.text,
                       "attendance": int.parse(_attendanceController.text),
                       "new_comer": int.parse(_newComerController.text),
                       "new_convert": int.parse(_newBornAgainController.text),
                       "offrandes": int.parse(_offrandesController.text),
                       "tithes": int.parse(_tithesController.text),
-                      "bacenter_leader":
-                          Provider.of<UserProvider>(context, listen: false)
-                              .user
-                              .id
+                      "bacenter": dropdownValue
                     };
+
                     var headers = {
                       'Content-Type': 'application/json;charset=UTF-8',
                       'Accept': 'application/json',
                       'Authorization': 'JWT ${provider.access}',
                     };
                     var mettingService = MettingService();
-                    var serviceAdded = mettingService.addService(body, headers);
+                    var serviceAdded = mettingService.addService(
+                        "http://10.0.2.2:8000/church/$churchId/bacenters/$dropdownValue/services",
+                        body,
+                        headers);
                     Navigator.pop(context, serviceAdded);
                   }
                 },

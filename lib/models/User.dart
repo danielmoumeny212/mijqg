@@ -22,6 +22,8 @@ class User {
   String get statut => profil?['statut'];
   String get image => profil?['image'];
   String get bacenterName => bacenters?[0].name;
+  String get fullName => "$name $firstName";
+  String get cellphone => profil?["cellphone_number"];
 
   factory User.empty() {
     return User(
@@ -44,6 +46,6 @@ class User {
         isStaff: json['is_staff'] as bool,
         profil: json['profil'] as Map<String, dynamic>,
         church: json["church"] as Map<String, dynamic>,
-        bacenters: json["bacenters"] );
+        bacenters: json["bacenters"]);
   }
 }
