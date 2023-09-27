@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mijqg/Providers/form_state_provider.dart';
 import 'package:mijqg/Providers/is_clicked_provider.dart';
 import 'package:mijqg/screens/login_screen.dart';
 import 'package:mijqg/Providers/user_provider.dart';
@@ -49,6 +50,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Consumer<IsClickedProvider>(builder: (context, provider, child) {
       final user = context.watch<UserProvider>().user;
+      final formKey = context.watch<FormKeyProvider>().formKey;
+      final formController = context.watch<FormKeyProvider>().fieldsController;
       return AppBar(
         // automaticallyImplyLeading: false,
         backgroundColor: Colors.teal,
@@ -74,7 +77,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             },
           ),
           provider.value
-              ? IconButton(onPressed: () {}, icon: const Icon(Icons.save))
+              ? IconButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      formController.forEach((element) {
+                        print(element.text);
+                      });
+                    }
+                  },
+                  icon: const Icon(Icons.save))
               : Container(),
         ],
       );

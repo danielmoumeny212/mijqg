@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mijqg/Providers/form_state_provider.dart';
 import 'package:mijqg/Providers/is_clicked_provider.dart';
 import 'package:mijqg/Providers/tokens_provider.dart';
 import 'package:mijqg/Providers/user_provider.dart';
@@ -19,8 +20,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => AuthTokensProvider()),
-        ChangeNotifierProvider(create: (context) => IsClickedProvider())
-        
+        ChangeNotifierProvider(create: (context) => IsClickedProvider()),
+        ChangeNotifierProvider(
+          create: (context) => FormKeyProvider(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mijqg/Providers/form_state_provider.dart';
 import 'package:mijqg/Providers/is_clicked_provider.dart';
 import 'package:mijqg/Providers/user_provider.dart';
 import 'dart:io';
@@ -18,7 +19,6 @@ class _ProfilPageState extends State<ProfilPage> {
   var boolProvider;
   // ignore: prefer_typing_uninitialized_variables
   var _image;
-
   Future<void> getImage() async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
@@ -30,107 +30,125 @@ class _ProfilPageState extends State<ProfilPage> {
   Widget build(BuildContext context) {
     bool isClicked = context.watch<IsClickedProvider>().value;
     boolProvider = Provider.of<IsClickedProvider>(context);
+    final formProvider = context.watch<FormKeyProvider>();
 
     final h = MediaQuery.of(context).size.height;
     return Consumer<UserProvider>(builder: (context, provider, child) {
       var user = provider.user;
+      final nameController = TextEditingController(text: user.name);
+      final firstNameController = TextEditingController(text: user.firstName);
+      final emailController = TextEditingController(text: user.email);
+      final cellphoneController = TextEditingController(text: user.cellphone);
+      formProvider.setFieldController(nameController);
+      formProvider.setFieldController(firstNameController);
+      formProvider.setFieldController(emailController);
+      formProvider.setFieldController(cellphoneController); 
+
       return SingleChildScrollView(
         padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Column(
-            verticalDirection: VerticalDirection.down,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: h * 0.03,
-              ),
-              GestureDetector(
-                onTap: getImage,
-                child: CircleAvatar(
-                  radius: 50.0,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: _image != null
-                      ? FileImage(_image) // Cast to ImageProvider<Object>
-                      : provider.user.image != ""
-                          ? NetworkImage(provider
-                              .user.image) // Cast to ImageProvider<Object>
-                          : _image,
-                  child: _image == null && provider.user.image == ""
-                      ? const Icon(Icons.add_a_photo,
-                          size: 50, color: Colors.white)
-                      : null,
+        child: Form(
+          key: formProvider.formKey,
+          child: Column(
+              verticalDirection: VerticalDirection.down,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: h * 0.03,
                 ),
-              ),
-              SizedBox(
-                height: h * 0.02,
-              ),
-              Text(
-                '${user.firstName}  ${user.name}',
-                style: GoogleFonts.pacifico(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
+                GestureDetector(
+                  onTap: getImage,
+                  child: CircleAvatar(
+                    radius: 50.0,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: _image != null
+                        ? FileImage(_image) // Cast to ImageProvider<Object>
+                        : provider.user.image != ""
+                            ? NetworkImage(provider
+                                .user.image) // Cast to ImageProvider<Object>
+                            : _image,
+                    child: _image == null && provider.user.image == ""
+                        ? const Icon(Icons.add_a_photo,
+                            size: 50, color: Colors.white)
+                        : null,
+                  ),
                 ),
-              ),
-              Text(
-                '${user.statut} ',
-                style: GoogleFonts.sourceSansPro(
-                    fontSize: 20.0,
-                    color: Colors.teal.shade200,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: h * 0.01,
-              ),
-              buildUserCard(
-                  leadingIcon: const Icon(
-                    Icons.account_circle,
-                    color: Colors.teal,
+                SizedBox(
+                  height: h * 0.02,
+                ),
+                Text(
+                  '${user.firstName}  ${user.name}',
+                  style: GoogleFonts.pacifico(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  initialValue: user.name,
-                  text: user.name,
-                  isToggled: isClicked),
-              SizedBox(
-                height: h * 0.01,
-              ),
-              buildUserCard(
-                  leadingIcon: const Icon(
-                    Icons.account_circle,
-                    color: Colors.teal,
-                  ),
-                  initialValue: user.firstName,
-                  text: user.firstName,
-                  isToggled: isClicked),
-              SizedBox(
-                height: h * 0.01,
-              ),
-              buildUserCard(
-                  leadingIcon: const Icon(
-                    Icons.email,
-                    color: Colors.teal,
-                  ),
-                  initialValue: user.email,
-                  text: user.email,
-                  isToggled: isClicked),
-              SizedBox(
-                height: h * 0.01,
-              ),
-              buildUserCard(
-                  leadingIcon: const Icon(
-                    Icons.phone,
-                    color: Colors.teal,
-                  ),
-                  initialValue: user.cellphone,
-                  text: user.cellphone,
-                  isToggled: isClicked),
-              const SizedBox(
-                height: 10.0,
-              ),
-            ]),
+                ),
+                Text(
+                  '${user.statut} ',
+                  style: GoogleFonts.sourceSansPro(
+                      fontSize: 20.0,
+                      color: Colors.teal.shade200,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: h * 0.01,
+                ),
+                buildUserCard(
+                    leadingIcon: const Icon(
+                      Icons.account_circle,
+                      color: Colors.teal,
+                    ),
+                    controller: nameController,
+                    initialValue: user.name,
+                    text: user.name,
+                    isToggled: isClicked),
+                SizedBox(
+                  height: h * 0.01,
+                ),
+                buildUserCard(
+                    leadingIcon: const Icon(
+                      Icons.account_circle,
+                      color: Colors.teal,
+                    ),
+                    controller: firstNameController,
+                    initialValue: user.firstName,
+                    text: user.firstName,
+                    isToggled: isClicked),
+                SizedBox(
+                  height: h * 0.01,
+                ),
+                buildUserCard(
+                    leadingIcon: const Icon(
+                      Icons.email,
+                      color: Colors.teal,
+                    ),
+                    controller: emailController,
+                    initialValue: user.email,
+                    text: user.email,
+                    isToggled: isClicked),
+                SizedBox(
+                  height: h * 0.01,
+                ),
+                buildUserCard(
+                    leadingIcon: const Icon(
+                      Icons.phone,
+                      color: Colors.teal,
+                    ),
+                    controller: cellphoneController,
+                    initialValue: user.cellphone,
+                    text: user.cellphone,
+                    isToggled: isClicked),
+                const SizedBox(
+                  height: 10.0,
+                ),
+              ]),
+        ),
       );
     });
   }
 
   GestureDetector buildUserCard({
     required Icon leadingIcon,
+    required TextEditingController controller,
     String? initialValue,
     bool isToggled = false,
     String text = '',
