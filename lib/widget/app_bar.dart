@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mijqg/Providers/is_clicked_provider.dart';
 import 'package:mijqg/screens/login_screen.dart';
-import 'package:mijqg/screens/profil_screen.dart';
 import 'package:mijqg/Providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -47,15 +47,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, provider, child) {
+    return Consumer<IsClickedProvider>(builder: (context, provider, child) {
+      final user = context.watch<UserProvider>().user;
       return AppBar(
         // automaticallyImplyLeading: false,
         backgroundColor: Colors.teal,
         title: Text(
-          '${provider.user.church?["name"]} ',
+          '${user.church?["name"]} ',
           style: TextStyle(color: Theme.of(context).hintColor, fontSize: 12.0),
         ),
-        actions: <Widget>[
+        actions: [
           IconButton(
             icon: const Icon(
               Icons.logout,
@@ -64,6 +65,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () async {
               bool? isLogout = await askForLogout(context);
               if (isLogout ?? false) {
+                // ignore: use_build_context_synchronously
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -71,6 +73,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               }
             },
           ),
+          provider.value
+              ? IconButton(onPressed: () {}, icon: const Icon(Icons.save))
+              : Container(),
         ],
       );
     });

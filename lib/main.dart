@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mijqg/Providers/is_clicked_provider.dart';
 import 'package:mijqg/Providers/tokens_provider.dart';
 import 'package:mijqg/Providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => AuthTokensProvider())
+        ChangeNotifierProvider(create: (context) => AuthTokensProvider()),
+        ChangeNotifierProvider(create: (context) => IsClickedProvider())
+        
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
