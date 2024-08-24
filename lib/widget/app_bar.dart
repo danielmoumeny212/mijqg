@@ -51,7 +51,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Consumer<IsClickedProvider>(builder: (context, provider, child) {
       final user = context.watch<UserProvider>().user;
       final formKey = context.watch<FormKeyProvider>().formKey;
-      final formController = context.watch<FormKeyProvider>().fieldsController;
+      var formData = context.read<FormKeyProvider>().fromMap();
+      var formController = context.watch<FormKeyProvider>().fieldsController;
+
       return AppBar(
         // automaticallyImplyLeading: false,
         backgroundColor: Colors.teal,
@@ -83,6 +85,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       formController.forEach((element) {
                         print(element.text);
                       });
+
+                      print("Form Data");
+                      print(formData);
                     }
                   },
                   icon: const Icon(Icons.save))

@@ -29,7 +29,7 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     bool isClicked = context.watch<IsClickedProvider>().value;
-    boolProvider = Provider.of<IsClickedProvider>(context);
+    boolProvider = Provider.of<IsClickedProvider>(context, listen: false);
     final formProvider = context.watch<FormKeyProvider>();
 
     final h = MediaQuery.of(context).size.height;
@@ -42,7 +42,7 @@ class _ProfilPageState extends State<ProfilPage> {
       formProvider.setFieldController(nameController);
       formProvider.setFieldController(firstNameController);
       formProvider.setFieldController(emailController);
-      formProvider.setFieldController(cellphoneController); 
+      formProvider.setFieldController(cellphoneController);
 
       return SingleChildScrollView(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -165,6 +165,7 @@ class _ProfilPageState extends State<ProfilPage> {
                         border: InputBorder.none,
                       ),
                       initialValue: initialValue,
+                      controller: controller,
                     )
                   : Text(
                       text,
